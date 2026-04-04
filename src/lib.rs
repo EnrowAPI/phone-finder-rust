@@ -15,19 +15,22 @@ pub struct Settings {
 #[derive(Debug, Clone)]
 pub struct FindPhoneParams {
     pub linkedin_url: Option<String>,
-    pub fullname: Option<String>,
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
     pub company_domain: Option<String>,
     pub company_name: Option<String>,
+    pub custom: Option<String>,
     pub webhook: Option<String>,
 }
 
 #[derive(Debug, Clone)]
 pub struct BulkSearch {
     pub linkedin_url: Option<String>,
-    pub fullname: Option<String>,
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
     pub company_domain: Option<String>,
     pub company_name: Option<String>,
-    pub custom: Option<HashMap<String, serde_json::Value>>,
+    pub custom: Option<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -45,6 +48,7 @@ pub struct PhoneResult {
     pub number: Option<String>,
     pub country: Option<String>,
     pub qualification: Option<String>,
+    pub params: Option<HashMap<String, serde_json::Value>>,
     pub status: Option<String>,
     pub message: Option<String>,
     pub credits_used: Option<u32>,
@@ -132,14 +136,20 @@ pub async fn find_phone(
     if let Some(ref url) = params.linkedin_url {
         body.insert("linkedin_url".into(), serde_json::Value::String(url.clone()));
     }
-    if let Some(ref name) = params.fullname {
-        body.insert("fullname".into(), serde_json::Value::String(name.clone()));
+    if let Some(ref first) = params.first_name {
+        body.insert("first_name".into(), serde_json::Value::String(first.clone()));
+    }
+    if let Some(ref last) = params.last_name {
+        body.insert("last_name".into(), serde_json::Value::String(last.clone()));
     }
     if let Some(ref domain) = params.company_domain {
         body.insert("company_domain".into(), serde_json::Value::String(domain.clone()));
     }
     if let Some(ref name) = params.company_name {
         body.insert("company_name".into(), serde_json::Value::String(name.clone()));
+    }
+    if let Some(ref custom) = params.custom {
+        body.insert("custom".into(), serde_json::Value::String(custom.clone()));
     }
 
     if let Some(settings) = build_settings(&params.webhook) {
@@ -191,8 +201,11 @@ pub async fn find_phones(
             if let Some(ref url) = s.linkedin_url {
                 entry.insert("linkedin_url".into(), serde_json::Value::String(url.clone()));
             }
-            if let Some(ref name) = s.fullname {
-                entry.insert("fullname".into(), serde_json::Value::String(name.clone()));
+            if let Some(ref first) = s.first_name {
+                entry.insert("first_name".into(), serde_json::Value::String(first.clone()));
+            }
+            if let Some(ref last) = s.last_name {
+                entry.insert("last_name".into(), serde_json::Value::String(last.clone()));
             }
             if let Some(ref domain) = s.company_domain {
                 entry.insert("company_domain".into(), serde_json::Value::String(domain.clone()));
@@ -201,7 +214,7 @@ pub async fn find_phones(
                 entry.insert("company_name".into(), serde_json::Value::String(name.clone()));
             }
             if let Some(ref custom) = s.custom {
-                entry.insert("custom".into(), serde_json::to_value(custom).unwrap());
+                entry.insert("custom".into(), serde_json::Value::String(custom.clone()));
             }
 
             serde_json::Value::Object(entry)
