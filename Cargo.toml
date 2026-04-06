@@ -5,7 +5,7 @@ edition = "2021"
 description = "Find mobile phone numbers from LinkedIn profiles or a name and company. Powered by Enrow."
 license = "MIT"
 keywords = ["phone-finder", "phone", "linkedin", "b2b", "enrow"]
-repository = "https://github.com/enrow/phone-finder-rust"
+repository = "https://github.com/EnrowAPI/phone-finder-rust"
 
 [dependencies]
 reqwest = { version = "0.12", features = ["json"] }
