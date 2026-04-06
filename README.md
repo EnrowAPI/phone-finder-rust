@@ -145,7 +145,7 @@ Register at [app.enrow.io](https://app.enrow.io) to get your API key. You get **
 ## Documentation
 
 - [Enrow API documentation](https://docs.enrow.io)
-- [Full Enrow SDK](https://github.com/EnrowAPI/enrow-rust) -- includes email finder, email verifier, reverse email lookup, and more
+- [Full Enrow SDK](https://github.com/EnrowAPI/enrow-rust) -- includes email finder, email verifierand more
 
 ## License
 
